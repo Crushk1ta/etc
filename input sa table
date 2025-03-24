@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        input, select, button {
+            margin: 5px;
+            padding: 8px;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let studentId = 1;
+        function addRow() {
+            var table = document.getElementById("studentTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var middleName = document.getElementById("middleName").value;
+            var address = document.getElementById("address").value;
+            var course = document.getElementById("course").value;
+            var sex = document.getElementById("sex").value;
+            var religion = document.getElementById("religion").value;
+            
+            if (firstName.length < 3 || firstName.length > 10 || lastName.length < 3 || lastName.length > 10) {
+                alert("First Name and Last Name must be between 3 to 10 characters long.");
+                return;
+            }
+            if (address.length < 3) {
+                alert("Address must be at least 3 characters long.");
+                return;
+            }
+            
+            var data = [studentId++, firstName, lastName, middleName, address, course, sex, religion];
+            
+            for (var i = 0; i < data.length; i++) {
+                var cell = newRow.insertCell(i);
+                cell.textContent = data[i];
+            }
+            
+            var removeCell = newRow.insertCell(data.length);
+            var removeBtn = document.createElement("button");
+            removeBtn.textContent = "Remove";
+            removeBtn.className = "remove-btn";
+            removeBtn.onclick = function() { table.deleteRow(newRow.rowIndex - 1); };
+            removeCell.appendChild(removeBtn);
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <input type="text" id="firstName" placeholder="First Name" minlength="3" maxlength="10">
+        <input type="text" id="lastName" placeholder="Last Name" minlength="3" maxlength="10">
+        <input type="text" id="middleName" placeholder="Middle Name">
+        <input type="text" id="address" placeholder="Address" minlength="3">
+        <input type="text" id="course" placeholder="Course">
+        <select id="sex">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <input type="text" id="religion" placeholder="Religion">
+        <button onclick="addRow()">Add Student</button>
+    </div>
+    
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Middle Name</th>
+                <th>Address</th>
+                <th>Course</th>
+                <th>Sex</th>
+                <th>Religion</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+</html>
